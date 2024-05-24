@@ -1,0 +1,131 @@
+#include <stdio.h>
+
+#include <string.h>
+
+ 
+
+// Definição da estrutura Produto
+
+struct Produto {
+
+    char nome[50];
+
+    float preco;
+
+    int quantidade;
+
+};
+
+ 
+
+// Função para cadastrar produtos
+
+void cadastrarProduto(struct Produto *p) {
+
+    printf("Insira o nome do produto: ");
+
+    fgets(p->nome, sizeof(p->nome), stdin);
+
+    p->nome[strcspn(p->nome, "\n")] = 0; // Remove o caractere de nova linha
+
+ 
+
+    printf("Insira o preço do produto: ");
+
+    scanf("%f", &p->preco);
+
+ 
+
+    printf("Insira a quantidade em estoque: ");
+
+    scanf("%d", &p->quantidade);
+
+ 
+
+    getchar(); // Limpa o buffer de entrada
+
+}
+
+ 
+
+// Função para exibir informações de um produto
+
+void exibirProduto(struct Produto p) {
+
+    printf("Nome: %s\n", p.nome);
+
+    printf("Preço: R$%.2f\n", p.preco);
+
+    printf("Quantidade em estoque: %d\n", p.quantidade);
+
+}
+
+ 
+
+// Função para calcular o valor total em estoque
+
+float calcularValorTotal(struct Produto p) {
+
+    return p.preco * p.quantidade;
+
+}
+
+ 
+
+int main() {
+
+    int n, i;
+
+    float valorTotalEstoque = 0.0;
+
+ 
+
+    printf("Quantos produtos você deseja cadastrar? ");
+
+    scanf("%d", &n);
+
+    getchar(); // Limpa o buffer de entrada
+
+ 
+
+    struct Produto produtos[n];
+
+ 
+
+    // Cadastro dos produtos
+
+    for(i = 0; i < n; i++) {
+
+        printf("\nCadastro do Produto %d:\n", i + 1);
+
+        cadastrarProduto(&produtos[i]);
+
+    }
+
+ 
+
+    // Exibição das informações dos produtos
+
+    printf("\nInformações dos Produtos Cadastrados:\n");
+
+    for(i = 0; i < n; i++) {
+
+        printf("\nProduto %d:\n", i + 1);
+
+        exibirProduto(produtos[i]);
+
+        valorTotalEstoque += calcularValorTotal(produtos[i]);
+
+    }
+
+ 
+
+    // Exibição do valor total em estoque
+
+    printf("\nValor total em estoque: R$%.2f\n", valorTotalEstoque);
+
+ 
+
+    return 0;
+
+}
