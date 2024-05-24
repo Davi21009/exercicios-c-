@@ -1,0 +1,55 @@
+#include <stdio.h>
+
+ 
+
+int main() {
+
+    int n, i, sum = 0;
+
+ 
+
+    // Solicita ao usuário o número de elementos no array
+
+    printf("Quantos elementos você deseja inserir no array? ");
+
+    scanf("%d", &n);
+
+ 
+
+    int array[n];
+
+ 
+
+    // Solicita ao usuário para inserir os elementos no array
+
+    printf("Insira os %d elementos no array:\n", n);
+
+    for(i = 0; i < n; i++) {
+
+        printf("Elemento %d: ", i + 1);
+
+        scanf("%d", &array[i]);
+
+    }
+
+ 
+
+    // Calcula a soma dos elementos no array
+
+    for(i = 0; i < n; i++) {
+
+        sum += array[i];
+
+    }
+
+ 
+
+    // Exibe a soma dos elementos
+
+    printf("A soma dos elementos do array é: %d\n", sum);
+
+ 
+
+    return 0;
+
+}
