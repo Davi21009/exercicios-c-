@@ -1,0 +1,229 @@
+#include <stdio.h>
+
+#include <stdlib.h>
+
+#include <string.h>
+
+ 
+
+// Definição da estrutura Funcionario
+
+typedef struct {
+
+    char nome[100];
+
+    int idade;
+
+    float salario;
+
+} Funcionario;
+
+ 
+
+// Função para adicionar um novo registro de funcionário
+
+void adicionarFuncionario(FILE *arquivo) {
+
+    Funcionario func;
+
+ 
+
+    printf("Digite o nome do funcionário: ");
+
+    fgets(func.nome, sizeof(func.nome), stdin);
+
+    func.nome[strcspn(func.nome, "\n")] = 0; // Remove o caractere de nova linha
+
+ 
+
+    printf("Digite a idade do funcionário: ");
+
+    scanf("%d", &func.idade);
+
+ 
+
+    printf("Digite o salário do funcionário: ");
+
+    scanf("%f", &func.salario);
+
+ 
+
+    // Escreve o registro no arquivo
+
+    fwrite(&func, sizeof(Funcionario), 1, arquivo);
+
+ 
+
+    // Limpa o buffer de entrada
+
+    getchar();
+
+}
+
+ 
+
+// Função para listar todos os registros de funcionários
+
+void listarFuncionarios(FILE *arquivo) {
+
+    Funcionario func;
+
+ 
+
+    // Move o ponteiro do arquivo para o início
+
+    rewind(arquivo);
+
+ 
+
+    printf("\nLista de Funcionários:\n");
+
+    while (fread(&func, sizeof(Funcionario), 1, arquivo) == 1) {
+
+        printf("Nome: %s, Idade: %d, Salário: %.2f\n", func.nome, func.idade, func.salario);
+
+    }
+
+}
+
+ 
+
+// Função para buscar um registro de funcionário pelo nome
+
+void buscarFuncionario(FILE *arquivo) {
+
+    char nome[100];
+
+    Funcionario func;
+
+    int encontrado = 0;
+
+ 
+
+    printf("Digite o nome do funcionário a ser buscado: ");
+
+    fgets(nome, sizeof(nome), stdin);
+
+    nome[strcspn(nome, "\n")] = 0; // Remove o caractere de nova linha
+
+ 
+
+    // Move o ponteiro do arquivo para o início
+
+    rewind(arquivo);
+
+ 
+
+    while (fread(&func, sizeof(Funcionario), 1, arquivo) == 1) {
+
+        if (strcmp(func.nome, nome) == 0) {
+
+            printf("Funcionário encontrado: Nome: %s, Idade: %d, Salário: %.2f\n", func.nome, func.idade, func.salario);
+
+            encontrado = 1;
+
+            break;
+
+        }
+
+    }
+
+ 
+
+    if (!encontrado) {
+
+        printf("Funcionário não encontrado.\n");
+
+    }
+
+}
+
+ 
+
+int main() {
+
+    FILE *arquivo;
+
+    int opcao;
+
+ 
+
+    // Abre o arquivo binário para leitura e escrita. Cria o arquivo se ele não existir.
+
+    arquivo = fopen("funcionarios.bin", "ab+");
+
+    if (arquivo == NULL) {
+
+        printf("Erro ao abrir o arquivo.\n");
+
+        return 1;
+
+    }
+
+ 
+
+    do {
+
+        printf("\nMenu:\n");
+
+        printf("1. Adicionar funcionário\n");
+
+        printf("2. Listar funcionários\n");
+
+        printf("3. Buscar funcionário por nome\n");
+
+        printf("4. Sair\n");
+
+        printf("Escolha uma opção: ");
+
+        scanf("%d", &opcao);
+
+        getchar(); // Limpa o buffer de entrada
+
+ 
+
+        switch (opcao) {
+
+            case 1:
+
+                adicionarFuncionario(arquivo);
+
+                break;
+
+            case 2:
+
+                listarFuncionarios(arquivo);
+
+                break;
+
+            case 3:
+
+                buscarFuncionario(arquivo);
+
+                break;
+
+            case 4:
+
+                printf("Saindo...\n");
+
+                break;
+
+            default:
+
+                printf("Opção inválida.\n");
+
+        }
+
+    } while (opcao != 4);
+
+ 
+
+    // Fecha o arquivo
+
+    fclose(arquivo);
+
+ 
+
+    return 0;
+
+}
