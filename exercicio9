@@ -1,0 +1,147 @@
+#include <stdio.h>
+
+#include <stdlib.h>
+
+ 
+
+// Função de comparação para a função qsort()
+
+int compare(const void *a, const void *b) {
+
+    return (*(int *)a - *(int *)b);
+
+}
+
+ 
+
+// Função para calcular a média dos elementos no array
+
+float calcularMedia(int array[], int tamanho) {
+
+    int soma = 0;
+
+    for (int i = 0; i < tamanho; i++) {
+
+        soma += array[i];
+
+    }
+
+    return (float)soma / tamanho;
+
+}
+
+ 
+
+// Função para calcular a mediana dos elementos no array
+
+float calcularMediana(int array[], int tamanho) {
+
+    qsort(array, tamanho, sizeof(int), compare);
+
+    if (tamanho % 2 == 0) {
+
+        return (float)(array[tamanho / 2 - 1] + array[tamanho / 2]) / 2.0;
+
+    } else {
+
+        return array[tamanho / 2];
+
+    }
+
+}
+
+ 
+
+// Função para calcular a moda dos elementos no array
+
+int calcularModa(int array[], int tamanho) {
+
+    int moda = array[0];
+
+    int frequencia = 1;
+
+    int maxFrequencia = 1;
+
+ 
+
+    for (int i = 1; i < tamanho; i++) {
+
+        if (array[i] == array[i - 1]) {
+
+            frequencia++;
+
+        } else {
+
+            if (frequencia > maxFrequencia) {
+
+                maxFrequencia = frequencia;
+
+                moda = array[i - 1];
+
+            }
+
+            frequencia = 1;
+
+        }
+
+    }
+
+ 
+
+    if (frequencia > maxFrequencia) {
+
+        moda = array[tamanho - 1];
+
+    }
+
+ 
+
+    return moda;
+
+}
+
+ 
+
+int main() {
+
+    int tamanho;
+
+    printf("Digite o tamanho do array: ");
+
+    scanf("%d", &tamanho);
+
+ 
+
+    int array[tamanho];
+
+    printf("Digite os elementos do array:\n");
+
+    for (int i = 0; i < tamanho; i++) {
+
+        scanf("%d", &array[i]);
+
+    }
+
+ 
+
+    float media = calcularMedia(array, tamanho);
+
+    printf("A média é: %.2f\n", media);
+
+ 
+
+    float mediana = calcularMediana(array, tamanho);
+
+    printf("A mediana é: %.2f\n", mediana);
+
+ 
+
+    int moda = calcularModa(array, tamanho);
+
+    printf("A moda é: %d\n", moda);
+
+ 
+
+    return 0;
+
+}
