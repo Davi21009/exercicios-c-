@@ -1,0 +1,55 @@
+#include <stdio.h>
+
+#include <string.h>
+
+#include <ctype.h>
+
+ 
+
+int main() {
+
+    char str[100];
+
+    int i, count = 0;
+
+ 
+
+    // Solicita ao usuário para inserir uma string
+
+    printf("Insira uma string: ");
+
+    fgets(str, sizeof(str), stdin);
+
+ 
+
+    // Remove o caractere de nova linha (\n) que fgets adiciona
+
+    str[strcspn(str, "\n")] = 0;
+
+ 
+
+    // Percorre cada caractere da string e conta as vogais
+
+    for(i = 0; str[i] != '\0'; i++) {
+
+        char ch = tolower(str[i]); // Converte o caractere para minúsculo
+
+        if(ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
+
+            count++;
+
+        }
+
+    }
+
+ 
+
+    // Exibe o número de vogais na string
+
+    printf("O número de vogais na string é: %d\n", count);
+
+ 
+
+    return 0;
+
+}
